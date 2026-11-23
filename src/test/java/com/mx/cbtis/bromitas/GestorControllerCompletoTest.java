@@ -42,6 +42,7 @@ class GestorControllerCompletoTest {
         backend.createContext("/buscarTarea", ex -> responder(ex, "{\"id_tarea\":7,\"nombre\":\"Tarea 7\"}"));
         backend.createContext("/deleteTareas", ex -> responder(ex, "1"));
         backend.createContext("/buscarComentarios", ex -> responder(ex, "[{\"id_comentario\":1,\"texto_comentario\":\"Hola\"}]"));
+        backend.createContext("/buscarTareas", ex -> responder(ex, "[{\"id_tarea\":1,\"nombre\":\"Tarea 1\"}]"));
         backend.start();
     }
 
@@ -213,6 +214,14 @@ class GestorControllerCompletoTest {
     @Test
     void consultarComentarios_devuelveLaLista() {
         ResponseEntity<Object> r = controller.consultarComentarios();
+
+        assertEquals(200, r.getStatusCode().value());
+        assertEquals(1, ((List<?>) r.getBody()).size());
+    }
+
+    @Test
+    void consultarTareas_devuelveLaListaCuandoElBackendResponde() {
+        ResponseEntity<Object> r = controller.consultarTareas();
 
         assertEquals(200, r.getStatusCode().value());
         assertEquals(1, ((List<?>) r.getBody()).size());
